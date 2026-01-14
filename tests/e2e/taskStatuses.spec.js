@@ -1,6 +1,5 @@
 import { test, expect } from '@playwright/test';
 import LoginPage from '../../pages/loginPage';
-import UsersPage from '../../pages/usersPage';
 import TaskStatusesPage from '../../pages/taskStatusesPage';
 
 const loginData = {
@@ -131,6 +130,19 @@ test.describe('delete task statuses', () => {
   await taskStatusesPage.createNewTasksStatuses(taskStatusesName2, taskStatusesSlug2 );
 
   await taskStatusesPage.deleteBulkTaskStatusesOnWidget();
+  
+});
+
+
+test('cancel deletion task statuses from the Task Statuses Widget', async ({ page }) => {
+
+  const taskStatusesName1 = generateRandomTaskStatusesName();
+  const taskStatusesSlug1 = generateRandomSlug();
+
+  await taskStatusesPage.createNewTasksStatuses(taskStatusesName1, taskStatusesSlug1 );
+  await taskStatusesPage.gotoTaskStatusesWidget();
+
+  await taskStatusesPage.cancelDeleteTaskStatusesOnWidget(taskStatusesName1,taskStatusesSlug1 );
   
 });
 

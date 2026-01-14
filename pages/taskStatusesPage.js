@@ -11,7 +11,7 @@ export default class TaskStatusesPage{
     this.deleteButton = page.getByRole('button', {name:'Delete'});
     this.createNewTaskStatusesButton = page.getByRole('link', {name: 'Create'});
     this.warningMessage = page.locator('.MuiSnackbarContent-message');
-
+    this.cancelDeleteButton = page.getByRole('button', {name:'Undo'})
   }
 
   async gotoTaskStatusesWidget(){
@@ -33,8 +33,7 @@ await this.page.getByRole('option', { name: '50' }).click();
     await this.taskSlugNameInput.fill(slug);
     await this.saveButton.click();
 
-    const snackbar = this.page.locator('.MuiSnackbarContent-message');
-    await expect(snackbar).toHaveText('Element created');
+    await expect(this.warningMessage).toHaveText('Element created');
   };
 
   async taskStatusesVerification(taskStatusesName, taskSlugName){
@@ -76,7 +75,6 @@ for (let i = 0; i < rowCount; i++) {
   expect(slug).toBeTruthy();
   expect(createdAt).toBeTruthy();
 }
-    
   };
 
   async updateTaskStatusesOnTheWidget(taskStatusesOldName,taskStatusesNewName, taskStatusesSlug ){
@@ -148,7 +146,15 @@ for (let i = 0; i < rowCount; i++) {
 };
 
 
+async cancelDeleteTaskStatusesOnWidget(taskStatusesName,slugName){
+  await this.gotoTaskStatusesWidget();
+  await this.page.getByRole('cell', { name: taskStatusesName }).click();
 
+  await this.deleteButton.click();
+  await expect(this.warningMessage).toHaveText('Element deleted');
+  await this.cancelDeleteButton.click();
+  await this.taskStatusesVerification(taskStatusesName,slugName);
+};
 
 
 }
