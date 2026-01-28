@@ -14,19 +14,21 @@ export default class TaskStatusesPage{
     this.cancelDeleteButton = page.getByRole('button', {name:'Undo'})
   }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
   async gotoTaskStatusesWidget(){
     await this.taskStatusesWidget.click();
   };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
   async openWholeTaskStatusesList(){
-  // открыть селект "Rows per page"
+  // open select "Rows per page"
 await this.page.locator('.MuiTablePagination-select').click();
 
-// выбрать 50
+// select 50
 await this.page.getByRole('option', { name: '50' }).click();
 };
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
   async createNewTasksStatuses(name, slug){
     await this.createNewTaskStatusesButton.click();
     await this.taskStatusesNameInput.fill(name);
@@ -36,6 +38,7 @@ await this.page.getByRole('option', { name: '50' }).click();
     await expect(this.warningMessage).toHaveText('Element created');
   };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
   async taskStatusesVerification(taskStatusesName, taskSlugName){
     await this.gotoTaskStatusesWidget();
     await this.openWholeTaskStatusesList();
@@ -45,6 +48,7 @@ await this.page.getByRole('option', { name: '50' }).click();
     await expect(taskStatusesSlugValue).toHaveCount(1);
   };
 
+/////////////////////////////////////////////////////////////////////////////////////////////////// 
     async taskStatusesVerificationAfterDeletion(taskStatusesName, taskSlugName){
     await this.gotoTaskStatusesWidget();
     await this.openWholeTaskStatusesList();
@@ -53,7 +57,7 @@ await this.page.getByRole('option', { name: '50' }).click();
     await expect(this.page.locator('table tbody tr td:nth-child(4)').filter({ hasText: taskSlugName })).toHaveCount(0);
   };
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 async allTaskStatusesVerificationOnTheWidget(){
   await this.gotoTaskStatusesWidget();
   await this.openWholeTaskStatusesList();
@@ -77,6 +81,7 @@ for (let i = 0; i < rowCount; i++) {
 }
   };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
   async updateTaskStatusesOnTheWidget(taskStatusesOldName,taskStatusesNewName, taskStatusesSlug ){
     await this.gotoTaskStatusesWidget();
     await this.openWholeTaskStatusesList();
@@ -94,7 +99,7 @@ for (let i = 0; i < rowCount; i++) {
 
   };
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
   async deleteOneTaskStatusesOnTheWidget(taskStatusesName,taskStatusesSlug){
     await this.gotoTaskStatusesWidget();
     await this.openWholeTaskStatusesList();
@@ -110,7 +115,7 @@ for (let i = 0; i < rowCount; i++) {
 
   };
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
     async deleteOneTaskStatusesOnForm(taskStatusesName,taskStatusesSlug){
     await this.gotoTaskStatusesWidget();
     await this.page.getByRole('cell', { name: taskStatusesName }).click();
@@ -120,7 +125,7 @@ for (let i = 0; i < rowCount; i++) {
   await this.taskStatusesVerificationAfterDeletion(taskStatusesName,taskStatusesSlug );
   };
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
  async deleteBulkTaskStatusesOnWidget(){
  await this.gotoTaskStatusesWidget();
  
@@ -141,11 +146,9 @@ for (let i = 0; i < rowCount; i++) {
   const warningText = this.page.locator('.MuiTypography-root', { hasText: 'Do you want to add one'})
   await expect(warningText).toBeVisible();
   await expect(this.createNewTaskStatusesButton).toBeVisible();
-
-
 };
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 async cancelDeleteTaskStatusesOnWidget(taskStatusesName,slugName){
   await this.gotoTaskStatusesWidget();
   await this.page.getByRole('cell', { name: taskStatusesName }).click();
@@ -156,5 +159,4 @@ async cancelDeleteTaskStatusesOnWidget(taskStatusesName,slugName){
   await this.taskStatusesVerification(taskStatusesName,slugName);
 };
 
-
-}
+};

@@ -11,13 +11,15 @@ export default class UsersPage{
     this.saveButton = page.getByRole('button', {name:'Save'});
     this.deleteButton = page.getByRole('button', {name:'Delete'});
     this.createNewUserButton = page.getByRole('link', {name: 'Create'});
-    
 
-  }
+  };
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
   async gotoUserWidget(){
     await this.userWidget.click();
   };
 
+/////////////////////////////////////////////////////////////////////////////////////////////////// 
   async crateNewUser(email,firstName,lastName){
     this.createNewUserButton.click();
     await this.emailInput.fill(email);
@@ -26,24 +28,28 @@ export default class UsersPage{
     await this.saveButton.click();
   };
 
+/////////////////////////////////////////////////////////////////////////////////////////////////// 
   async userEmailVerification(email){
     await this.gotoUserWidget();
     const emailValue = this.page.locator('table tbody tr td:nth-child(3)').filter({ hasText: email });
     await expect(emailValue).toHaveCount(1);
-  }
+  };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
     async userFirstNameVerification(firstName){
     await this.gotoUserWidget();
     const firstNameValue = this.page.locator('table tbody tr td:nth-child(4)').filter({ hasText: firstName });
     await expect(firstNameValue).toHaveCount(1);
-  }
+  };
 
+/////////////////////////////////////////////////////////////////////////////////////////////////// 
       async userLastNameVerification(lastName){
     await this.gotoUserWidget();
     const lastNameValue = this.page.locator('table tbody tr td:nth-child(5)').filter({ hasText: lastName });
     await expect(lastNameValue).toHaveCount(1);
-  }
+  };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
   async userIdVerification(firstName){
     await this.gotoUserWidget();
 
@@ -55,22 +61,25 @@ export default class UsersPage{
   const idText = await idCell.textContent();
 
   expect(idText?.trim()).not.toBe('');
-  }
+  };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
 async userFieldsVerification(email,firstName,lastName){
   await this.userEmailVerification(email);
   await this.userFirstNameVerification(firstName);
   await this.userLastNameVerification(lastName);
   await this.userIdVerification(firstName);
-}
-  
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 async userUpdateFormVerification(email,firstName,lastName){
   await this.page.getByRole('cell', { name: email }).click();
   await expect(this.firstNameInput).toHaveValue(firstName);
   await expect(this.lastNameInput).toHaveValue(lastName);
   await expect(this.emailInput).toHaveValue(email);
-}  
+};  
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
 async userUpdateInformation(emailOld,emailNew,firstNameNew,lastNameNew){
   await this.page.getByRole('cell', { name: emailOld }).click();
   await this.emailInput.fill('');
@@ -91,8 +100,7 @@ async userUpdateInformation(emailOld,emailNew,firstNameNew,lastNameNew){
   await this.userLastNameVerification(lastNameNew);
 };
 
-
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 async expectRequiredErrorForEmptyFiled(field) {
   const fieldContainer = this.page.locator(`.ra-input-${field}`);
   const error = fieldContainer.locator('.MuiFormHelperText-root');
@@ -103,14 +111,16 @@ async expectRequiredErrorForEmptyFiled(field) {
   await expect(error).toHaveText('Required');
 };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
 async openWholeUserList(){
-  // открыть селект "Rows per page"
+  // open select "Rows per page"
 await this.page.locator('.MuiTablePagination-select').click();
 
-// выбрать 50
+// select 50
 await this.page.getByRole('option', { name: '50' }).click();
-}
+};
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
 async userUpdateUnsuccessInformation(emailOld,emailNew,firstNameNew,lastNameNew){
   await this.page.getByRole('cell', { name: emailOld }).click();
   await this.emailInput.fill('');
@@ -125,7 +135,7 @@ async userUpdateUnsuccessInformation(emailOld,emailNew,firstNameNew,lastNameNew)
   await this.saveButton.click();
 };
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 async expectEmailFormatErrorFor() {
   const fieldContainer = this.page.locator(`.ra-input-email`);
   const error = fieldContainer.locator('.MuiFormHelperText-root');
@@ -136,6 +146,7 @@ async expectEmailFormatErrorFor() {
   await expect(error).toHaveText('Incorrect email format');
 };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
 async userNotExistVerification({ email, firstName, lastName }) {
   await this.gotoUserWidget();
 
@@ -159,10 +170,9 @@ async userNotExistVerification({ email, firstName, lastName }) {
   }
 
   await expect(userExists).toBeFalsy();
-}
+};
 
-
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 async deleteUserFromUserForm(email, firstName,lastName) {
   await this.page.getByRole('cell', { name: email }).click();
   await this.deleteButton.click();
@@ -175,6 +185,7 @@ await expect(snackbar).toHaveText('Element deleted');
 await this.userNotExistVerification(email, firstName, lastName );
 };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
 async deleteUserFromUserWidget(email, firstName,lastName) {
   await this.openWholeUserList();
   const row = this.page.locator('tr', {
@@ -188,6 +199,7 @@ await expect(snackbar).toHaveText('Element deleted');
 await this.userNotExistVerification(email, firstName, lastName );  
 };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
 async deleteTwoUsersFromUserWidget(email1, firstName1,lastName1,email2, firstName2,lastName2, ) {
   await this.openWholeUserList();
   const row1 = this.page.locator('tr', {
@@ -209,8 +221,7 @@ await this.userNotExistVerification(email1, firstName1, lastName1 );
 await this.userNotExistVerification(email2, firstName2, lastName2 ); 
 };
 
-
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 async deleteBulkUsersFromUserWidget( ) {
   await this.openWholeUserList();
   const rows = this.page.locator('table.MuiTable-root tbody tr');
@@ -234,7 +245,7 @@ async deleteBulkUsersFromUserWidget( ) {
 
 };
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 async cancelDeleteOneUserFromUserWidget(email,firstName, lastName ) {
   await this.openWholeUserList();
   const row = this.page.locator('tr', {
@@ -248,7 +259,7 @@ await this.userFieldsVerification(email,firstName,lastName);
 
 };
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
 async cancelDeleteTwoUserFromUserWidget(email1,firstName1, lastName1, email2,firstName2, lastName2 ) {
   await this.openWholeUserList();
   const row1 = this.page.locator('tr', {
@@ -269,9 +280,5 @@ await this.userFieldsVerification(email1,firstName1,lastName1);
 await this.userFieldsVerification(email2,firstName2,lastName2); 
 
 };
-
-
-
-
 
 };

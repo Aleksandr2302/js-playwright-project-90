@@ -13,38 +13,41 @@ export default class LabelsPage {
     this.cancelDeleteButton = page.getByRole('button', { name: 'Undo' });
     this.ItemSelectedMessage = page.getByRole('heading', {name: 'selected', level: '6'})
     this.noLabelsWarningMessage = page.getByText('Do You want to add one?')
-  }
+  };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
   async gotoLabelsWidget() {
     await this.taskStatusesWidget.click();
-  }
+  };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
   async openWholeLabelsList() {
     // открыть селект "Rows per page"
     await this.page.locator('.MuiTablePagination-select').click();
 
     // выбрать 50
     await this.page.getByRole('option', { name: '50' }).click();
-  }
+  };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
   async newLabelFormVerification() {
     await this.createNewLabelButton.click();
     await expect(this.labelInput).toHaveText('');
     await expect(this.saveButton).toBeDisabled();
-  }
+  };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
   async createNewLabel(name) {
     await this.createNewLabelButton.click();
     await this.labelInput.fill(name);
     await this.saveButton.click();
     await expect(this.warningMessage).toHaveText('Element created');
-  }
+  };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
   async labelVerification(name, action = 'new') {
     this.gotoLabelsWidget();
-    
-
-    
+  
     if (action === 'new'){
       await expect(this.warningMessage).toHaveText('Element created');
     } if(action === 'update') {
@@ -76,9 +79,9 @@ export default class LabelsPage {
 
     // New label should have the max index
     expect(newLabelIndex).toBe(maxIndex);
-  }
+  };
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
   async updateLabel(oldName,newName) {
     const newLabelRow = this.page
       .locator('table tbody tr')
@@ -90,7 +93,7 @@ export default class LabelsPage {
     await this.saveButton.click();
   };
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
   async labelNotExistVerification(name) {
     this.gotoLabelsWidget();
     await this.openWholeLabelsList();
@@ -99,9 +102,9 @@ export default class LabelsPage {
       .locator('table tbody tr td:nth-child(3)')
       .filter({ hasText: name });
       expect(newLabel).toHaveCount(0);
-
   };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
     async countOfAllLabels(){
     await this.gotoLabelsWidget();
     await this.openWholeLabelsList();
@@ -111,7 +114,7 @@ export default class LabelsPage {
     return rowCount;
   };
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
   async deleteLabelFromWidget(name) {
     const newLabelRow = this.page
       .locator('table tbody tr')
@@ -126,6 +129,7 @@ export default class LabelsPage {
 
   };
 
+/////////////////////////////////////////////////////////////////////////////////////////////////// 
    async deleteLabelFromTheForm(name) {
     const newLabelRow = this.page
       .locator('table tbody tr')
@@ -140,6 +144,7 @@ export default class LabelsPage {
 
   };
 
+/////////////////////////////////////////////////////////////////////////////////////////////////// 
     async deleteBulkLabels() {
     await this.gotoLabelsWidget();
     await this.openWholeLabelsList();
@@ -153,6 +158,7 @@ export default class LabelsPage {
     await expect(this.warningMessage).toContainText(`${allRowCount} elements deleted`);
   };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
    async cancelDeletionLabelFromTheForm(name) {
     const newLabelRow = this.page
       .locator('table tbody tr')
@@ -165,7 +171,7 @@ export default class LabelsPage {
     await this.labelVerification(name, action);
   };
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
      async cancelBulkDeletionLabelFromWidget() {
       await this.openWholeLabelsList();
 
@@ -179,8 +185,5 @@ export default class LabelsPage {
 
     await expect(rowCountBeforeDeletion).toBe(rowCountAfterDeletion);
   };
-
-
-
 
 }

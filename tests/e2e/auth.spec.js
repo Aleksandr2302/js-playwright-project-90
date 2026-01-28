@@ -2,11 +2,7 @@
 import { test, expect } from '@playwright/test';
 import LoginPage from '../../pages/loginPage';
 import LogoutPage from '../../pages/logoutPage';
-
-const loginData = {
-  username: 'username',
-  password: 'password',
-};
+import {loginData} from '../../fixtures/tasks';
 
 test.beforeEach(async ({ page }) => {
   const loginPage = new LoginPage(page);

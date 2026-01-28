@@ -1,16 +1,8 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import LoginPage from '../../pages/loginPage';
 import LabelsPage from '../../pages/labelsPage';
-
-const loginData = {
-  username: 'username',
-  password: 'password',
-};
-
-function generateRandomLabelName() {
-  const random = Math.floor(Math.random() * 1000);
-  return `RandomLabelName${random}`;
-}
+import {loginData} from '../../fixtures/tasks';
+import {generateRandomLabelName} from '../../fixtures/labels';
 
 let labelsPage;
 
@@ -25,12 +17,12 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('labels creating and validation', () => {
 
-test('new label form creating verification', async ({ page }) => {
+test('new label form creating verification', async () => {
   await labelsPage.gotoLabelsWidget();
   await labelsPage.newLabelFormVerification();
 });
 
-test('1 new task statuses creating', async ({ page }) => {
+test('1 new task statuses creating', async () => {
   const labelName = generateRandomLabelName();
 
   await labelsPage.gotoLabelsWidget();
@@ -40,7 +32,7 @@ test('1 new task statuses creating', async ({ page }) => {
   
 });
 
-test('2 new labels creating', async ({ page }) => {
+test('2 new labels creating', async () => {
   const labelName1 = generateRandomLabelName();
 
   await labelsPage.gotoLabelsWidget();
@@ -58,7 +50,7 @@ test('2 new labels creating', async ({ page }) => {
 });
 
 test.describe('update labels and validation', () => {
-  test('update 1 label and validation', async ({ page }) => {
+  test('update 1 label and validation', async () => {
   const labelName1 = generateRandomLabelName();
   const action = 'updated'
 
@@ -77,7 +69,7 @@ test.describe('update labels and validation', () => {
 
 
 test.describe('delete labels and validation', () => {
-  test('delete 1 label and validation from widget', async ({ page }) => {
+  test('delete 1 label and validation from widget', async () => {
   const labelName1 = generateRandomLabelName();
 
   await labelsPage.gotoLabelsWidget();
@@ -87,7 +79,7 @@ test.describe('delete labels and validation', () => {
   await labelsPage.deleteLabelFromWidget(labelName1)
 });
 
-  test('delete 1 label and validation from the from', async ({ page }) => {
+  test('delete 1 label and validation from the from', async () => {
   const labelName1 = generateRandomLabelName();
 
   await labelsPage.gotoLabelsWidget();
@@ -99,7 +91,7 @@ test.describe('delete labels and validation', () => {
 
 
 
-test('delete bulk labels and validation', async ({ page }) => {
+test('delete bulk labels and validation', async () => {
   const labelName1 = generateRandomLabelName();
   const labelName2 = generateRandomLabelName();
 
@@ -114,7 +106,7 @@ test('delete bulk labels and validation', async ({ page }) => {
   await labelsPage.deleteBulkLabels(labelName1);
 });
 
-  test('cancel deletion of 1 label from the from', async ({ page }) => {
+  test('cancel deletion of 1 label from the from', async () => {
   const labelName1 = generateRandomLabelName();
 
   await labelsPage.gotoLabelsWidget();
@@ -124,7 +116,7 @@ test('delete bulk labels and validation', async ({ page }) => {
   await labelsPage.cancelDeletionLabelFromTheForm(labelName1);
 });
 
-  test('cancel bulk deletion of labels on the Widget', async ({ page }) => {
+  test('cancel bulk deletion of labels on the Widget', async () => {
   const labelName1 = generateRandomLabelName();
   const labelName2 = generateRandomLabelName();
 
