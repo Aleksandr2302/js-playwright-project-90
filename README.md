@@ -1,16 +1,84 @@
-# React + Vite
+# Task Manager Automation Project
+### Purpose
+Automate testing of a React-Admin task management app using Playwright, ensuring key features work correctly.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Description
 
-Currently, two official plugins are available:
+Task Manager lets users create tasks, assign performers, change statuses, and manage users, labels, and task statuses.
+Tests cover creating, editing, deleting, and moving tasks, as well as user authentication and management.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Tools & Technologies
 
-## React Compiler
+- **Playwright** – for end-to-end UI testing  
+- **JavaScript** – language used for writing tests  
+- **React-Admin** – framework used for building the application  
+- **Node.js / npm** – project management and dependency management  
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Test Coverage
 
-## Expanding the ESLint configuration
+- User authentication (login/logout)  
+- Creating, editing, deleting tasks  
+- Moving tasks between Kanban columns  
+- Creating and editing users  
+- Creating and editing labels and task statuses  
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## Project Structure
+```
+├── .github/ 
+├── fixtures/
+│ ├── csvFiles/
+│ ├── labels.js
+│ ├── tasks.js
+│ ├── tasksStatuses.js
+│ ├── user.js
+├── node_modules/ 
+├── pages/
+│ ├── labelsPage.js
+│ ├── tasksPage.js
+│ ├── tasksStatusesPage.js
+│ ├── userPage.js
+│ ├── loginPage.js
+│ ├── logoutPage.js
+├── playwright-report/
+├── public/
+├── scr/
+├── test-results/
+├── tests/
+│ ├── e2e/ 
+│ │ ├── auth.spec.js
+│ │ ├── labels.spec.js
+│ │ ├── tasks.spec.js
+│ │ └── taskStatuses.spec.js
+│ │ └── user.spec.js
+├── .gitignore 
+├── .eslint.config.js
+├── playwright.config.js 
+├── package.json
+├── README.md
+├── index.html
+└── package-lock.json
+```
+
+## How to Run Tests
+
+1. Install dependencies:
+```
+npm install
+```
+
+2. Run all tests:
+```
+npx playwright test
+```
+
+3. Generate test report:
+```
+npx playwright show-report
+```
+
+4. Run tests in a specific folder (optional):
+```
+npx playwright test tests/e2e/
+```
