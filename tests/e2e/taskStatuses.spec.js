@@ -1,11 +1,8 @@
-import { test, expect } from '@playwright/test';
-import LoginPage from '../../pages/loginPage';
-import TaskStatusesPage from '../../pages/taskStatusesPage';
-import { loginData } from '../../fixtures/tasks';
-import {
-  generateRandomTaskStatusesName,
-  generateRandomSlug,
-} from '../../fixtures/taskStatuses';
+import { test, expect } from "@playwright/test";
+import LoginPage from "../../pages/loginPage";
+import TaskStatusesPage from "../../pages/taskStatusesPage";
+import { loginData } from "../../fixtures/tasks";
+import { generateRandomTaskAndSlugName } from "../../fixtures/taskStatuses";
 
 let taskStatusesPage;
 
@@ -18,8 +15,8 @@ test.beforeEach(async ({ page }) => {
   await taskStatusesPage.gotoTaskStatusesWidget();
 });
 
-test.describe('task statuses creating and validation', () => {
-  test('new task statuses form creating verification', async () => {
+test.describe("task statuses creating and validation", () => {
+  test("new task statuses form creating verification", async () => {
     await taskStatusesPage.gotoTaskStatusesWidget();
     await taskStatusesPage.createNewTaskStatusesButton.click();
     await expect(taskStatusesPage.taskStatusesNameInput).toBeVisible();
@@ -27,140 +24,130 @@ test.describe('task statuses creating and validation', () => {
     await expect(taskStatusesPage.saveButton).toBeDisabled();
   });
 
-  test('1 new task statuses creating', async () => {
-    const taskStatusesName = generateRandomTaskStatusesName();
-    const taskStatusesSlug = generateRandomSlug();
+  test("1 new task statuses creating", async () => {
+    const taskStatuses1 = generateRandomTaskAndSlugName();
 
     await taskStatusesPage.createNewTasksStatuses(
-      taskStatusesName,
-      taskStatusesSlug
+      taskStatuses1.taskName,
+      taskStatuses1.slugName,
     );
 
     await taskStatusesPage.taskStatusesVerification(
-      taskStatusesName,
-      taskStatusesSlug
+      taskStatuses1.taskName,
+      taskStatuses1.slugName,
     );
   });
 
-  test('2 new task statuses creating', async () => {
-    const taskStatusesName1 = generateRandomTaskStatusesName();
-    const taskStatusesSlug1 = generateRandomSlug();
+  test("2 new task statuses creating", async () => {
+    const taskStatuses1 = generateRandomTaskAndSlugName();
 
-    const taskStatusesName2 = generateRandomTaskStatusesName();
-    const taskStatusesSlug2 = generateRandomSlug();
+    const taskStatuses2 = generateRandomTaskAndSlugName();
 
     await taskStatusesPage.createNewTasksStatuses(
-      taskStatusesName1,
-      taskStatusesSlug1
+      taskStatuses1.taskName,
+      taskStatuses1.slugName,
     );
     await taskStatusesPage.gotoTaskStatusesWidget();
 
     await taskStatusesPage.createNewTasksStatuses(
-      taskStatusesName2,
-      taskStatusesSlug2
+      taskStatuses2.taskName,
+      taskStatuses2.slugName,
     );
 
     await taskStatusesPage.taskStatusesVerification(
-      taskStatusesName1,
-      taskStatusesSlug1
+      taskStatuses1.taskName,
+      taskStatuses1.slugName,
     );
     await taskStatusesPage.taskStatusesVerification(
-      taskStatusesName2,
-      taskStatusesSlug2
+      taskStatuses2.taskName,
+      taskStatuses2.slugName,
     );
   });
 
-  test('task statuses information validation on the user widget', async () => {
+  test("task statuses information validation on the user widget", async () => {
     await taskStatusesPage.allTaskStatusesVerificationOnTheWidget();
   });
 });
 
-test.describe('update task statuses', () => {
-  test('update task statuses', async () => {
-    const taskStatusesName1 = generateRandomTaskStatusesName();
-    const taskStatusesSlug1 = generateRandomSlug();
+test.describe("update task statuses", () => {
+  test("update task statuses", async () => {
+    const taskStatuses1 = generateRandomTaskAndSlugName();
 
-    const taskStatusesName2 = generateRandomTaskStatusesName();
-    const taskStatusesSlug2 = generateRandomSlug();
+    const taskStatuses2 = generateRandomTaskAndSlugName();
 
     await taskStatusesPage.createNewTasksStatuses(
-      taskStatusesName1,
-      taskStatusesSlug1
+      taskStatuses1.taskName,
+      taskStatuses1.slugName,
     );
 
     await taskStatusesPage.updateTaskStatusesOnTheWidget(
-      taskStatusesName1,
-      taskStatusesName2,
-      taskStatusesSlug2
+      taskStatuses1.taskName,
+      taskStatuses2.taskName,
+      taskStatuses2.slugName,
     );
   });
 });
 
-test.describe('delete task statuses', () => {
-  test('delete 1 task statuses from the Task Statuses Widget', async () => {
-    const taskStatusesName1 = generateRandomTaskStatusesName();
-    const taskStatusesSlug1 = generateRandomSlug();
+test.describe("delete task statuses", () => {
+  test("delete 1 task statuses from the Task Statuses Widget", async () => {
+    const taskStatuses1 = generateRandomTaskAndSlugName();
 
     await taskStatusesPage.createNewTasksStatuses(
-      taskStatusesName1,
-      taskStatusesSlug1
+      taskStatuses1.taskName,
+      taskStatuses1.slugName,
     );
 
     await taskStatusesPage.deleteOneTaskStatusesOnTheWidget(
-      taskStatusesName1,
-      taskStatusesSlug1
+      taskStatuses1.taskName,
+      taskStatuses1.slugName,
     );
   });
 
-  test('delete 1 task statuses from the Task Statuses Form', async () => {
-    const taskStatusesName1 = generateRandomTaskStatusesName();
-    const taskStatusesSlug1 = generateRandomSlug();
+  test("delete 1 task statuses from the Task Statuses Form", async () => {
+    const taskStatuses1 = generateRandomTaskAndSlugName();
 
     await taskStatusesPage.createNewTasksStatuses(
-      taskStatusesName1,
-      taskStatusesSlug1
+      taskStatuses1.taskName,
+      taskStatuses1.slugName,
     );
 
     await taskStatusesPage.deleteOneTaskStatusesOnTheWidget(
-      taskStatusesName1,
-      taskStatusesSlug1
+      taskStatuses1.taskName,
+      taskStatuses1.slugName,
     );
   });
 
-  test('delete bulk task statuses from the Task Statuses Widget', async () => {
-    const taskStatusesName1 = generateRandomTaskStatusesName();
-    const taskStatusesSlug1 = generateRandomSlug();
+  test("delete bulk task statuses from the Task Statuses Widget", async () => {
+    const taskStatuses1 = generateRandomTaskAndSlugName();
 
-    const taskStatusesName2 = generateRandomTaskStatusesName();
-    const taskStatusesSlug2 = generateRandomSlug();
+    const taskStatuses2 = generateRandomTaskAndSlugName();
 
     await taskStatusesPage.createNewTasksStatuses(
-      taskStatusesName1,
-      taskStatusesSlug1
+      taskStatuses1.taskName,
+      taskStatuses1.slugName,
     );
     await taskStatusesPage.gotoTaskStatusesWidget();
 
     await taskStatusesPage.createNewTasksStatuses(
-      taskStatusesName2,
-      taskStatusesSlug2
+      taskStatuses2.taskName,
+      taskStatuses2.slugName,
     );
 
     await taskStatusesPage.deleteBulkTaskStatusesOnWidget();
   });
 
-  test('cancel deletion task statuses from the Task Statuses Widget', async () => {
-    const taskStatusesName1 = generateRandomTaskStatusesName();
-    const taskStatusesSlug1 = generateRandomSlug();
+  test("cancel deletion task statuses from the Task Statuses Widget", async () => {
+    const taskStatuses1 = generateRandomTaskAndSlugName();
 
     await taskStatusesPage.createNewTasksStatuses(
-      taskStatusesName1,
-      taskStatusesSlug1
+      taskStatuses1.taskName,
+      taskStatuses1.slugName,
     );
     await taskStatusesPage.gotoTaskStatusesWidget();
 
     await taskStatusesPage.cancelDeleteTaskStatusesOnWidget(
-      taskStatusesName1,
-      taskStatusesSlug1
+      taskStatuses1.taskName,
+      taskStatuses1.slugName,
     );
   });
 });
