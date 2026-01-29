@@ -14,6 +14,7 @@ Tests cover creating, editing, deleting, and moving tasks, as well as user authe
 - **React-Admin** – framework used for building the application  
 - **Node.js / npm** – project management and dependency management  
 
+
 ### Test Coverage
 
 - User authentication (login/logout)  
@@ -22,7 +23,7 @@ Tests cover creating, editing, deleting, and moving tasks, as well as user authe
 - Creating and editing users  
 - Creating and editing labels and task statuses  
 
----
+
 
 ## Project Structure
 ```
